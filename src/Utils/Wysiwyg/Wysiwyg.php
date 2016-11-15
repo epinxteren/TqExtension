@@ -123,11 +123,11 @@ abstract class Wysiwyg
      */
     protected function execute($method, $selector = '', array $arguments = [])
     {
-        return $this->context->executeJs("return !object.$method(!args);", [
+        return $this->context->executeJs(strtr("return !object.$method(!args);", [
             '!object' => $this->getInstance($selector),
             // Remove "[" character from start of the string and "]" from the end.
-            '!args' => substr(drupal_json_encode($arguments), 1, -1),
-        ]);
+            '!args' => substr(json_encode($arguments, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT), 1, -1),
+        ]));
     }
 
     /**
